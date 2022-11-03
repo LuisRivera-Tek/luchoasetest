@@ -1,0 +1,14 @@
+- task: AzurePowerShell@5
+  inputs:
+    ScriptType: 'InlineScript'
+    Inline: |
+      Get-AzurePublishSettingsFile
+      Import-AzurePublishSettingsFile .\Your-Publish-Settings-credentials.publishsettings
+      Get-AzureSubscription
+      Select-AzureSubscription -SubscriptionName "CSS_ASE_Testing"
+      Set-AzureSubscription -SubscriptionId "4f42d231-1050-4386-b5ca-54cc38d11edf"
+      
+      $WebAppName = "luchoexternalasetest"
+      Get-AzureWebsite -Name $WebAppName
+      Publish-AzureWebsiteProject -Name $WebAppName -Package "C:\PowerShell\standard.zip"
+    azurePowerShellVersion: 'LatestVersion'
