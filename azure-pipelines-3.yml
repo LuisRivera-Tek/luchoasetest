@@ -1,0 +1,33 @@
+# Starter pipeline
+- task: AzurePowerShell@5
+  inputs:
+    ScriptType: 'InlineScript'
+    Inline: |
+      Get-AzurePublishSettingsFile
+      Import-AzurePublishSettingsFile .\Your-Publish-Settings-credentials.publishsettings
+      Get-AzureSubscription
+      Select-AzureSubscription -SubscriptionName "CSS_ASE_Testing"
+      Set-AzureSubscription -SubscriptionId "4f42d231-1050-4386-b5ca-54cc38d11edf"
+      
+      $WebAppName = "luchoexternalasetest"
+      Get-AzureWebsite -Name $WebAppName
+      Publish-AzureWebsiteProject -Name $WebAppName -Package "C:\PowerShell\standard.zip"
+    preferredAzurePowerShellVersion: '2.6.0'
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
